@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airline Fare Comparison Tool</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;margin:0;background:#f3f6fb;color:#1e293b}
+header{background:#10243e;color:white;padding:28px 7%}
+header h1{margin:0 0 8px}
+main{max-width:1100px;margin:30px auto;padding:0 18px}
+.card{background:white;padding:22px;border-radius:12px;margin-bottom:20px;box-shadow:0 3px 14px #10243e12}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}
+input,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font-size:14px}
+button{background:#1765bd;color:white;border:0;padding:12px 18px;border-radius:7px;cursor:pointer;font-weight:bold}
+button:hover{background:#104b8e}
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+.result{border:1px solid #dbe3ef;border-radius:10px;padding:18px}
+.result.best{border:2px solid #16845b}
+.price{font-size:26px;font-weight:bold;margin:10px 0;color:#10243e}
+.tag{font-size:12px;background:#e5f5ed;color:#126443;padding:5px 8px;border-radius:20px}
+.muted{color:#64748b;font-size:13px}
+.error{color:#b42318;font-weight:bold}
+footer{text-align:center;padding:25px;color:#64748b;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+<h1>Airline Fare Comparison Tool</h1>
+<p>Compare flight options beyond the ticket price.</p>
+</header>
+
+<main>
+<section class="card">
+<h2>Enter Flight Options</h2>
+<p class="muted">Add up to three flight options using the information shown on airline or travel booking websites.</p>
+<div id="forms" class="grid"></div>
+<br>
+<button onclick="compareFlights()">Compare Flights</button>
+<p id="error" class="error"></p>
+</section>
+
+<section class="card">
+<h2>Comparison Results</h2>
+<div id="results" class="results">
+<p class="muted">Enter your flight details and select Compare Flights.</p>
+</div>
+</section>
+</main>
+
+<footer>
+Educational portfolio project | Manual comparison only | No live airline pricing or booking connection
+</footer>
+
+<script>
+const fields = [
+  ["airline","Airline name","text","e.g. AirAsia"],
+  ["fare","Total fare","number","e.g. 8500"],
+  ["baggage","Checked baggage (kg)","number","e.g. 20"],
+  ["stops","Number of stops","number","e.g. 0"],
+  ["duration","Journey duration (hours)","number","e.g. 4.5"],
+  ["changeFee","Change fee","number","e.g. 2500"],
+  ["cancelFee","Cancellation fee","number","e.g. 4000"]
+];
+
+const forms = document.getElementById("forms");
+
+for(let i=1;i<=3;i++){
+  const section=document.createElement("div");
+  section.className="result";
+  section.innerHTML=`<h3>Flight Option ${i}</h3>`+
+    fields.map(([id,label,type,placeholder])=>`
+      <div style="margin-bottom:11px">
+        <label for="${id}${i}">${label}</label>
+        <input id="${id}${i}" type="${type}" min="0" step="any"
+        placeholder="${placeholder}" ${id==="airline"?"":"value='0'"} >
+      </div>`).join("");
+  forms.appendChild(section);
+}
+
+function getValue(id,i){
+  return document.getElementById(id+i).value.trim();
+}
+
+function compareFlights(){
+  const error=document.getElementById("error");
+  const results=document.getElementById("results");
+  error.textContent="";
+  results.innerHTML="";
+
+  const flights=[];
+
+  for(let i=1;i<=3;i++){
+    const airline=getValue("airline",i);
+    const fare=getValue("fare",i);
+    const baggage=getValue("baggage",i);
+    const stops=getValue("stops",i);
+    const duration=getValue("duration",i);
+    const changeFee=getValue("changeFee",i);
+    const cancelFee=getValue("cancelFee",i);
+
+    // Skip completely blank options
+    if(!airline && !fare) continue;
+
+    const numbers=[fare,baggage,stops,duration,changeFee,cancelFee];
+    if(!airline || numbers.some(v=>v==="" || !Number.isFinite(Number(v)) || Number(v)<0)){
+      error.textContent=`Please complete all fields with valid non-negative numbers for Flight Option ${i}.`;
+      return;
+    }
+
+    flights.push({
+      airline,
+      fare:Number(fare),
+      baggage:Number(baggage),
+      stops:Number(stops),
+      duration:Number(duration),
+      changeFee:Number(changeFee),
+      cancelFee:Number(cancelFee)
+    });
+  }
+
+  if(flights.length<2){
+    error.textContent="Please enter at least two flight options to compare.";
+    return;
+  }
+
+  const cheapest=Math.min(...flights.map(f=>f.fare));
+
+  flights.forEach(f=>{
+    const card=document.createElement("div");
+    card.className="result"+(f.fare===cheapest?" best":"");
+    const badge=f.fare===cheapest?'<span class="tag">Lowest total fare</span>':"";
+    card.innerHTML=`
+      ${badge}
+      <h3>${escapeHTML(f.airline)}</h3>
+      <div class="price">${money(f.fare)}</div>
+      <p><strong>Checked baggage:</strong> ${f.baggage} kg</p>
+      <p><strong>Stops:</strong> ${f.stops}</p>
+      <p><strong>Journey duration:</strong> ${f.duration} hours</p>
+      <p><strong>Change fee:</strong> ${money(f.changeFee)}</p>
+      <p><strong>Cancellation fee:</strong> ${money(f.cancelFee)}</p>
+      <p class="muted">Fees shown are user-entered figures and may exclude taxes or other charges.</p>
+    `;
+    results.appendChild(card);
+  });
+}
+
+function money(value){
+  return new Intl.NumberFormat("en-IN",{
+    style:"currency",currency:"INR",maximumFractionDigits:0
+  }).format(value);
+}
+
+function escapeHTML(value){
+  return value.replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+</script>
+</body>
+</html>
