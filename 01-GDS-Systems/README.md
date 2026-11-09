@@ -1,3 +1,7 @@
+---
+layout: page
+title: GDS Systems
+---
 
 # GDS Systems
 
