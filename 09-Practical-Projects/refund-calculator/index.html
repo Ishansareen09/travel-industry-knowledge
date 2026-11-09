@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airline Refund Calculator</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 30px 15px;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #172033;
+}
+
+.container {
+  max-width: 650px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 5px 25px rgba(0,0,0,.06);
+}
+
+h1 {
+  color: #173b68;
+  margin-top: 0;
+}
+
+.subtitle {
+  color: #64748b;
+  line-height: 1.5;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 18px;
+  margin-bottom: 7px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 22px;
+  background: #173b68;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.result {
+  display: none;
+  margin-top: 22px;
+  padding: 20px;
+  background: #eff6ff;
+  border-radius: 10px;
+}
+
+.amount {
+  font-size: 28px;
+  font-weight: bold;
+  color: #166534;
+}
+
+.warning {
+  margin-top: 20px;
+  padding: 14px;
+  background: #fff7ed;
+  border-radius: 8px;
+  color: #9a3412;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+footer {
+  text-align: center;
+  color: #64748b;
+  margin-top: 20px;
+  font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<h1>✈️ Airline Refund Calculator</h1>
+
+<p class="subtitle">
+Calculate an illustrative airline ticket refund
+based on cancellation penalties and non-refundable amounts.
+</p>
+
+<label>Currency</label>
+<select id="currency">
+<option value="INR">INR (₹)</option>
+<option value="USD">USD ($)</option>
+<option value="GBP">GBP (£)</option>
+<option value="EUR">EUR (€)</option>
+</select>
+
+<label>Original Ticket Amount</label>
+<input type="number" id="fare" min="0" step="0.01" placeholder="Enter ticket amount">
+
+<label>Cancellation Penalty</label>
+<input type="number" id="penalty" min="0" step="0.01" placeholder="Enter cancellation penalty">
+
+<label>Other Non-refundable Charges</label>
+<input type="number" id="charges" min="0" step="0.01" value="0">
+
+<label>Refundable Additional Amount</label>
+<input type="number" id="tax" min="0" step="0.01" value="0">
+
+<button onclick="calculateRefund()">Calculate Refund</button>
+
+<div class="result" id="result">
+<h3>Refund Calculation</h3>
+
+<p>Original ticket amount:
+<strong id="original"></strong></p>
+
+<p>Cancellation penalty:
+<strong id="deduction"></strong></p>
+
+<p>Other non-refundable charges:
+<strong id="other"></strong></p>
+
+<p>Additional refundable amount:
+<strong id="additional"></strong></p>
+
+<hr>
+
+<p>Estimated Refund Amount</p>
+<div class="amount" id="refund"></div>
+</div>
+
+<div class="warning">
+<strong>Important:</strong> This is an illustrative calculator,
+not an official airline refund quotation. Actual refunds depend
+on fare rules, ticket coupon status, taxes, no-show conditions,
+ancillaries, airline policies and applicable regulations.
+</div>
+
+</div>
+
+<footer>
+Travel Industry Knowledge Hub | Educational Project
+</footer>
+</div>
+
+<script>
+function calculateRefund() {
+
+  const fare = Number(document.getElementById("fare").value);
+  const penalty = Number(document.getElementById("penalty").value);
+  const charges = Number(document.getElementById("charges").value);
+  const tax = Number(document.getElementById("tax").value);
+  const currency = document.getElementById("currency").value;
+
+  const values = [fare, penalty, charges, tax];
+
+  if (values.some(v => !Number.isFinite(v) || v < 0)) {
+    alert("Please enter valid non-negative amounts.");
+    return;
+  }
+
+  if (fare + tax === 0) {
+    alert("Please enter a ticket amount or refundable additional amount.");
+    return;
+  }
+
+  if (penalty + charges > fare) {
+    alert("Deductions cannot exceed the ticket amount.");
+    return;
+  }
+
+  const refund = fare - penalty - charges + tax;
+
+  const formatter = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: currency
+  });
+
+  document.getElementById("original").textContent =
+    formatter.format(fare);
+
+  document.getElementById("deduction").textContent =
+    formatter.format(penalty);
+
+  document.getElementById("other").textContent =
+    formatter.format(charges);
+
+  document.getElementById("additional").textContent =
+    formatter.format(tax);
+
+  document.getElementById("refund").textContent =
+    formatter.format(refund);
+
+  document.getElementById("result").style.display = "block";
+}
+</script>
+
+</body>
+</html>
