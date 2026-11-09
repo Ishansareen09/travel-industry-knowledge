@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travel Operations Dashboard</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6fb;color:#1e293b;font-family:Arial,sans-serif}
+header{background:#10243e;color:white;padding:28px 7%}
+header h1{margin:0 0 8px}
+main{max-width:1150px;margin:30px auto;padding:0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+.card{background:white;border-radius:12px;padding:20px;box-shadow:0 3px 14px #10243e12;margin-bottom:20px}
+.metric{font-size:30px;font-weight:bold;margin:12px 0;color:#10243e}
+.label{font-size:13px;color:#64748b}
+input{padding:10px;border:1px solid #cbd5e1;border-radius:7px;width:100%}
+button{background:#1765bd;color:white;border:0;padding:11px 18px;border-radius:7px;cursor:pointer}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:13px;border-bottom:1px solid #e2e8f0}
+th{background:#f8fafc}
+.bar{height:12px;background:#e2e8f0;border-radius:20px;overflow:hidden}
+.fill{height:100%;background:#16845b}
+.muted{color:#64748b;font-size:13px}
+@media(max-width:600px){table{font-size:12px}th,td{padding:8px}}
+</style>
+</head>
+<body>
+<header>
+<h1>Travel Operations Dashboard</h1>
+<p>Monitor booking performance, service quality and operational outcomes.</p>
+</header>
+
+<main>
+<section class="card">
+<h2>Update Operational Data</h2>
+<p class="muted">Enter sample operational figures. This dashboard uses manual data and does not connect to live booking systems.</p>
+<div class="grid">
+<div><label>Total bookings</label><input id="bookings" type="number" min="0" value="1200"></div>
+<div><label>Successful bookings</label><input id="successful" type="number" min="0" value="1080"></div>
+<div><label>Cancellations</label><input id="cancelled" type="number" min="0" value="75"></div>
+<div><label>Refund requests</label><input id="refunds" type="number" min="0" value="45"></div>
+<div><label>Customer satisfaction (%)</label><input id="csat" type="number" min="0" max="100" value="92"></div>
+</div>
+<br>
+<button onclick="updateDashboard()">Update Dashboard</button>
+<p id="error" style="color:#b42318"></p>
+</section>
+
+<h2>Operational Performance</h2>
+<section class="grid">
+<div class="card">
+<div class="label">Total Bookings</div>
+<div class="metric" id="total">1,200</div>
+<div class="muted">Bookings processed</div>
+</div>
+<div class="card">
+<div class="label">Successful Bookings</div>
+<div class="metric" id="success">1,080</div>
+<div class="muted">Confirmed transactions</div>
+</div>
+<div class="card">
+<div class="label">Cancellations</div>
+<div class="metric" id="cancel">75</div>
+<div class="muted">Cancelled bookings</div>
+</div>
+<div class="card">
+<div class="label">Refund Requests</div>
+<div class="metric" id="refund">45</div>
+<div class="muted">Requests received</div>
+</div>
+<div class="card">
+<div class="label">Booking Success Rate</div>
+<div class="metric" id="rate">90%</div>
+<div class="bar"><div class="fill" id="ratebar" style="width:90%"></div></div>
+</div>
+<div class="card">
+<div class="label">Customer Satisfaction</div>
+<div class="metric" id="satisfaction">92%</div>
+<div class="bar"><div class="fill" id="csatbar" style="width:92%"></div></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Performance Summary</h2>
+<table>
+<thead><tr><th>Metric</th><th>Value</th><th>Interpretation</th></tr></thead>
+<tbody>
+<tr><td>Booking success rate</td><td id="tableRate">90%</td><td>Successful bookings divided by total bookings</td></tr>
+<tr><td>Cancellation rate</td><td id="cancelRate">6.25%</td><td>Cancellations divided by total bookings</td></tr>
+<tr><td>Refund request rate</td><td id="refundRate">3.75%</td><td>Refund requests divided by total bookings</td></tr>
+<tr><td>Customer satisfaction</td><td id="tableCsat">92%</td><td>User-entered satisfaction score</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="card">
+<h2>Operational Insights</h2>
+<ul id="insights">
+<li>Booking success rate is 90%.</li>
+<li>Customer satisfaction is 92%.</li>
+<li>Monitor cancellation and refund trends.</li>
+</ul>
+</section>
+
+<p class="muted">Portfolio demonstration only. Sample data is illustrative and does not represent actual airline or passenger records.</p>
+</main>
+
+<script>
+function number(id){
+ return Number(document.getElementById(id).value);
+}
+function percent(value,total){
+ return total===0?0:(value/total)*100;
+}
+function fmt(value){
+ return value.toLocaleString("en-IN",{maximumFractionDigits:2})+"%";
+}
+function updateDashboard(){
+ const bookings=number("bookings");
+ const successful=number("successful");
+ const cancelled=number("cancelled");
+ const refunds=number("refunds");
+ const csat=number("csat");
+ const error=document.getElementById("error");
+
+ if([bookings,successful,cancelled,refunds,csat].some(v=>!Number.isFinite(v)||v<0)){
+  error.textContent="Please enter valid non-negative numbers.";
+  return;
+ }
+ if(!Number.isInteger(bookings)||!Number.isInteger(successful)||!Number.isInteger(cancelled)||!Number.isInteger(refunds)){
+  error.textContent="Booking, success, cancellation and refund counts must be whole numbers.";
+  return;
+ }
+ if(bookings===0 && (successful>0||cancelled>0||refunds>0)){
+  error.textContent="Enter total bookings before entering operational counts.";
+  return;
+ }
+ if(successful>bookings||cancelled>bookings||refunds>bookings||csat>100){
+  error.textContent="Counts cannot exceed total bookings. Customer satisfaction must be between 0 and 100.";
+  return;
+ }
+ error.textContent="";
+
+ const successRate=percent(successful,bookings);
+ const cancelRate=percent(cancelled,bookings);
+ const refundRate=percent(refunds,bookings);
+
+ document.getElementById("total").textContent=bookings.toLocaleString("en-IN");
+ document.getElementById("success").textContent=successful.toLocaleString("en-IN");
+ document.getElementById("cancel").textContent=cancelled.toLocaleString("en-IN");
+ document.getElementById("refund").textContent=refunds.toLocaleString("en-IN");
+ document.getElementById("rate").textContent=fmt(successRate);
+ document.getElementById("satisfaction").textContent=fmt(csat);
+ document.getElementById("ratebar").style.width=successRate+"%";
+ document.getElementById("csatbar").style.width=csat+"%";
+ document.getElementById("tableRate").textContent=fmt(successRate);
+ document.getElementById("cancelRate").textContent=fmt(cancelRate);
+ document.getElementById("refundRate").textContent=fmt(refundRate);
+ document.getElementById("tableCsat").textContent=fmt(csat);
+
+ const insights=[];
+ insights.push("Booking success rate: "+fmt(successRate)+".");
+ insights.push("Cancellation rate: "+fmt(cancelRate)+".");
+ insights.push("Refund request rate: "+fmt(refundRate)+".");
+ if(successRate<90) insights.push("Review booking failures and identify recurring process issues.");
+ if(cancelRate>10) insights.push("Investigate cancellation reasons and possible service or schedule issues.");
+ if(csat<85) insights.push("Review customer feedback, response times and service quality.");
+ if(successRate>=90 && csat>=90) insights.push("Both booking success and customer satisfaction are at or above 90%.");
+ document.getElementById("insights").innerHTML=insights.map(x=>"<li>"+x+"</li>").join("");
+}
+updateDashboard();
+</script>
+</body>
+</html>
