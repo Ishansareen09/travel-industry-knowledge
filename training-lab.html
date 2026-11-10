@@ -1,0 +1,648 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>Training Lab | Travel Industry Knowledge Hub</title>
+
+<style>
+:root {
+  --bg:#0b1220;
+  --panel:#111c2f;
+  --line:#263852;
+  --text:#edf3fb;
+  --muted:#9eb0c8;
+  --accent:#5eead4;
+  --blue:#60a5fa;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:linear-gradient(135deg,#08111f,#0d1b2e,#101a2a);
+  color:var(--text);
+  font:15px/1.55 Arial,sans-serif;
+}
+.wrap { max-width:1100px;margin:auto;padding:28px 18px 60px; }
+header { margin-bottom:24px; }
+.eyebrow { color:var(--accent);font-size:12px;letter-spacing:2px;font-weight:bold; }
+h1 { font-size:38px;margin:8px 0; }
+h2 { font-size:22px;margin-top:0; }
+.sub,.muted { color:var(--muted); }
+.pill { display:inline-block;border:1px solid #28534f;color:var(--accent);padding:6px 12px;border-radius:20px;font-size:12px; }
+.tabs { display:flex;gap:8px;flex-wrap:wrap;margin:24px 0; }
+.tab { padding:11px 16px;border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:9px;cursor:pointer;font-weight:bold; }
+.tab.active { background:var(--accent);color:#06211e; }
+.panel { background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px; }
+.hidden { display:none; }
+.grid { display:grid;grid-template-columns:repeat(2,1fr);gap:15px; }
+.field { display:flex;flex-direction:column;gap:6px; }
+label { font-size:13px;font-weight:bold;color:#c5d2e3; }
+input,select { width:100%;padding:11px;background:#0b1627;border:1px solid #344861;border-radius:8px;color:white; }
+.btn { background:var(--accent);color:#06211e;border:0;border-radius:9px;padding:11px 17px;font-weight:bold;cursor:pointer;margin-top:15px; }
+.btn.secondary { background:#1d3552;color:white;border:1px solid #3b5575; }
+.notice { background:#10243a;border:1px solid #34516c;border-radius:10px;padding:13px;margin:15px 0;color:#c6d8ed;font-size:13px; }
+.flight { display:flex;justify-content:space-between;gap:12px;align-items:center;background:#0d192b;border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:10px; }
+.flight small { display:block;color:var(--muted); }
+.price { font-size:19px;font-weight:bold; }
+.result { margin-top:18px;padding:18px;border:1px solid #27615b;background:#0c2828;border-radius:12px; }
+.result h3 { color:var(--accent);margin-top:0; }
+.kv { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+.kv div { border-bottom:1px solid #ffffff20;padding:7px 0; }
+.kv span { display:block;font-size:12px;color:var(--muted); }
+.stat { background:#0d192b;border:1px solid var(--line);padding:15px;border-radius:10px; }
+.stat strong { display:block;font-size:24px; }
+.stats { display:grid;grid-template-columns:repeat(3,1fr);gap:12px; }
+.progress { height:9px;background:#26374e;border-radius:20px;overflow:hidden;margin:12px 0; }
+.progress i { display:block;height:100%;width:0;background:var(--accent); }
+.quizq { background:#0d192b;border:1px solid var(--line);border-radius:10px;padding:16px;margin:12px 0; }
+.option { display:block;margin:9px 0;font-weight:normal; }
+.option input { width:auto;margin-right:8px; }
+.badge { display:inline-block;background:#172b43;border:1px solid #45627f;border-radius:20px;padding:6px 10px;margin:4px;font-size:12px; }
+footer { margin-top:30px;text-align:center;color:var(--muted);font-size:12px; }
+@media(max-width:650px) {
+  .grid,.stats,.kv { grid-template-columns:1fr; }
+  h1 { font-size:30px; }
+  .panel { padding:16px; }
+  .flight { flex-wrap:wrap; }
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">TRAVEL INDUSTRY KNOWLEDGE HUB</div>
+  <h1>Training Lab</h1>
+  <p class="sub">Learn it. Simulate it. Master it.</p>
+  <span class="pill">EDUCATIONAL SIMULATION</span>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="booking">✈ Booking Simulator</button>
+  <button class="tab" data-tab="cancel">↩ Cancellation & Refund</button>
+  <button class="tab" data-tab="learn">🏆 Learning & Rewards</button>
+</nav>
+
+<!-- BOOKING SIMULATOR -->
+<section id="booking" class="panel">
+<h2>Airline Ticket Booking Simulator</h2>
+<p class="muted">Practice a simplified airline reservation and ticket issuance workflow.</p>
+
+<div class="grid">
+  <div class="field">
+    <label>Origin</label>
+    <select id="origin">
+      <option value="DEL">Delhi (DEL)</option>
+      <option value="BOM">Mumbai (BOM)</option>
+      <option value="BLR">Bengaluru (BLR)</option>
+      <option value="HYD">Hyderabad (HYD)</option>
+      <option value="MAA">Chennai (MAA)</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Destination</label>
+    <select id="destination">
+      <option value="BOM">Mumbai (BOM)</option>
+      <option value="DEL">Delhi (DEL)</option>
+      <option value="BLR">Bengaluru (BLR)</option>
+      <option value="HYD">Hyderabad (HYD)</option>
+      <option value="MAA">Chennai (MAA)</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Travel Date</label>
+    <input type="date" id="travelDate">
+  </div>
+
+  <div class="field">
+    <label>Passengers</label>
+    <select id="passengers">
+      <option value="1">1 Passenger</option>
+      <option value="2">2 Passengers</option>
+      <option value="3">3 Passengers</option>
+      <option value="4">4 Passengers</option>
+    </select>
+  </div>
+</div>
+
+<button class="btn" id="searchFlights">Search Flights</button>
+<div id="flightResults"></div>
+
+<div id="passengerArea" class="hidden">
+  <h3>Passenger Details</h3>
+  <div class="grid">
+    <div class="field">
+      <label>Full Name</label>
+      <input id="paxName" placeholder="Passenger name" maxlength="60">
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input id="paxEmail" type="email" placeholder="Email address" maxlength="100">
+    </div>
+  </div>
+
+  <div class="notice">Use fictional details only. This simulator does not send information to an airline.</div>
+  <button class="btn" id="bookNow">Confirm Simulated Booking</button>
+</div>
+
+<div id="bookingResult"></div>
+</section>
+
+<!-- CANCELLATION SIMULATOR -->
+<section id="cancel" class="panel hidden">
+<h2>Cancellation & Refund Simulator</h2>
+<p class="muted">Practice PNR retrieval, cancellation and illustrative refund calculations.</p>
+
+<div class="grid">
+  <div class="field">
+    <label>Demo PNR</label>
+    <input id="pnrInput" placeholder="Enter six-character PNR" maxlength="6">
+  </div>
+  <div class="field">
+    <label>Cancellation Scenario</label>
+    <select id="cancelReason">
+      <option value="voluntary">Passenger Voluntary Cancellation</option>
+      <option value="airline">Airline-Initiated Cancellation</option>
+      <option value="noshow">No Show</option>
+    </select>
+  </div>
+</div>
+
+<button class="btn" id="checkPnr">Retrieve Booking</button>
+<button class="btn secondary" id="calculateRefund" disabled>Calculate Refund</button>
+
+<div id="cancelResult"></div>
+</section>
+
+<!-- GAMIFICATION -->
+<section id="learn" class="panel hidden">
+<h2>Learning & Rewards</h2>
+<p class="muted">Complete travel industry quizzes, earn points and unlock achievements.</p>
+
+<div class="stats">
+  <div class="stat"><strong id="points">0</strong><span class="muted">Total Points</span></div>
+  <div class="stat"><strong id="level">Beginner</strong><span class="muted">Current Level</span></div>
+  <div class="stat"><strong id="badgeCount">0</strong><span class="muted">Badges Earned</span></div>
+</div>
+
+<div class="progress"><i id="progressBar"></i></div>
+<p id="progressText" class="muted"></p>
+
+<div id="quiz"></div>
+
+<button class="btn" id="submitQuiz">Submit Answers</button>
+<button class="btn secondary" id="resetQuiz">Try Again</button>
+
+<div id="quizFeedback"></div>
+
+<h3>Your Achievements</h3>
+<div id="badges"></div>
+
+<h3>Your Progress Board</h3>
+<div id="leaderboard"></div>
+</section>
+
+<footer>
+Training prototype only. Sample schedules, fares and refund rules are fictional.
+No live airline, GDS, payment or booking system is connected.
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const STORAGE = "tikh_training_lab_v1";
+const BOOKING_STORAGE = "tikh_demo_bookings";
+
+const sampleFlights = [
+  {id:"SK101",airline:"SkyWays",depart:"08:15",arrive:"10:25",base:4200},
+  {id:"AX204",airline:"AeroX",depart:"13:40",arrive:"15:55",base:5100},
+  {id:"NW330",airline:"Northwind Air",depart:"19:10",arrive:"21:20",base:4650}
+];
+
+const questions = [
+  {
+    q:"What does PNR stand for?",
+    options:["Passenger Name Record","Personal Number Reference","Passenger Network Route"],
+    answer:0,
+    explanation:"PNR means Passenger Name Record."
+  },
+  {
+    q:"What is an e-ticket?",
+    options:["A boarding gate receipt","An electronic ticket document","A baggage tag"],
+    answer:1,
+    explanation:"An electronic ticket is the digital record of the ticket issued."
+  },
+  {
+    q:"What should an agent check before quoting cancellation penalties?",
+    options:["Only the departure gate","Applicable fare rules and ticket status","Only the passenger's meal"],
+    answer:1,
+    explanation:"Fare conditions and ticket status help determine cancellation treatment."
+  },
+  {
+    q:"What does no-show generally mean?",
+    options:["Passenger does not present for travel","Flight is overbooked","Passenger changes seats"],
+    answer:0,
+    explanation:"A no-show is generally a passenger who fails to present for booked travel."
+  },
+  {
+    q:"Which information is commonly held in a PNR?",
+    options:["Passenger itinerary","Aircraft engineering log","Pilot medical record"],
+    answer:0,
+    explanation:"A PNR contains passenger reservation and itinerary information."
+  }
+];
+
+function freshProgress() {
+  return {points:0,badges:[],bookingAwarded:false,cancelAwarded:[],bestQuiz:0};
+}
+
+function loadProgress() {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE) || "null");
+    return data && typeof data.points === "number"
+      ? {...freshProgress(),...data}
+      : freshProgress();
+  } catch {
+    return freshProgress();
+  }
+}
+
+let progress = loadProgress();
+let availableFlights = [];
+let selectedFlight = null;
+let retrievedBooking = null;
+
+function saveProgress() {
+  localStorage.setItem(STORAGE,JSON.stringify(progress));
+  renderProgress();
+}
+
+function awardBadge(name) {
+  if (!progress.badges.includes(name)) progress.badges.push(name);
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function money(value) {
+  return "₹" + Math.round(value).toLocaleString("en-IN");
+}
+
+function makePNR() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let result = "";
+  for (let i=0;i<6;i++) {
+    result += chars[Math.floor(Math.random()*chars.length)];
+  }
+  return result;
+}
+
+function allBookings() {
+  try {
+    return JSON.parse(localStorage.getItem(BOOKING_STORAGE) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveBooking(booking) {
+  const bookings = allBookings();
+  bookings[booking.pnr] = booking;
+  localStorage.setItem(BOOKING_STORAGE,JSON.stringify(bookings));
+}
+
+function getBooking(pnr) {
+  return allBookings()[pnr] || null;
+}
+
+function errorMessage(element,message) {
+  element.innerHTML = '<div class="notice">'+escapeHTML(message)+'</div>';
+}
+
+/* NAVIGATION */
+document.querySelectorAll(".tab").forEach(button => {
+  button.addEventListener("click",() => {
+    document.querySelectorAll(".tab").forEach(item => {
+      item.classList.toggle("active",item === button);
+    });
+    ["booking","cancel","learn"].forEach(id => {
+      $(id).classList.toggle("hidden",id !== button.dataset.tab);
+    });
+  });
+});
+
+/* BOOKING */
+const dateInput = $("travelDate");
+const today = new Date();
+dateInput.min = [
+  today.getFullYear(),
+  String(today.getMonth()+1).padStart(2,"0"),
+  String(today.getDate()).padStart(2,"0")
+].join("-");
+dateInput.value = dateInput.min;
+
+$("searchFlights").addEventListener("click",() => {
+  const from = $("origin").value;
+  const to = $("destination").value;
+  const date = dateInput.value;
+  const passengers = Number($("passengers").value);
+
+  if (from === to) {
+    errorMessage($("flightResults"),"Origin and destination must be different.");
+    return;
+  }
+
+  if (!date || date < dateInput.min) {
+    errorMessage($("flightResults"),"Select a valid travel date.");
+    return;
+  }
+
+  availableFlights = sampleFlights.map((flight,index) => ({
+    ...flight,
+    from,
+    to,
+    date,
+    passengers,
+    base:flight.base + (from === "DEL" ? 0 : 300) + (to === "MAA" ? 250 : 0),
+    index
+  }));
+
+  selectedFlight = availableFlights[0];
+
+  $("flightResults").innerHTML =
+    "<h3>Available Sample Flights</h3>" +
+    availableFlights.map((flight,index) => `
+      <label class="flight">
+        <span>
+          <b>${escapeHTML(flight.airline)} · ${flight.id}</b>
+          <small>${from} ${flight.depart} → ${to} ${flight.arrive} · Non-stop</small>
+        </span>
+        <span>
+          <b class="price">${money(flight.base*passengers)}</b>
+          <small class="muted">Estimated total</small>
+        </span>
+        <input type="radio" name="flightChoice" value="${index}"
+          ${index===0?"checked":""}>
+      </label>
+    `).join("");
+
+  document.querySelectorAll('input[name="flightChoice"]').forEach(radio => {
+    radio.addEventListener("change",() => {
+      selectedFlight = availableFlights[Number(radio.value)];
+    });
+  });
+
+  $("passengerArea").classList.remove("hidden");
+  $("bookingResult").innerHTML = "";
+});
+
+$("bookNow").addEventListener("click",() => {
+  if (!selectedFlight) {
+    errorMessage($("bookingResult"),"Search and select a sample flight first.");
+    return;
+  }
+
+  const name = $("paxName").value.trim();
+  const email = $("paxEmail").value.trim();
+
+  if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errorMessage($("bookingResult"),"Enter a passenger name and valid demo email.");
+    return;
+  }
+
+  const base = selectedFlight.base * selectedFlight.passengers;
+  const tax = Math.round(base * 0.12);
+  const fee = 350 * selectedFlight.passengers;
+  const total = base + tax + fee;
+
+  const booking = {
+    pnr:makePNR(),
+    name,
+    email,
+    flight:selectedFlight.id,
+    airline:selectedFlight.airline,
+    from:selectedFlight.from,
+    to:selectedFlight.to,
+    date:selectedFlight.date,
+    passengers:selectedFlight.passengers,
+    base,
+    tax,
+    fee,
+    total,
+    status:"TICKETED"
+  };
+
+  saveBooking(booking);
+  retrievedBooking = booking;
+  $("pnrInput").value = booking.pnr;
+
+  $("bookingResult").innerHTML = `
+    <div class="result">
+      <h3>✓ Simulated Ticket Issued</h3>
+      <div class="kv">
+        <div><span>Demo PNR</span><b>${booking.pnr}</b></div>
+        <div><span>Status</span><b>TICKETED · SIMULATED</b></div>
+        <div><span>Passenger</span><b>${escapeHTML(name)}</b></div>
+        <div><span>Flight</span><b>${escapeHTML(booking.airline)} · ${booking.flight}</b></div>
+        <div><span>Route and date</span><b>${booking.from} → ${booking.to} · ${booking.date}</b></div>
+        <div><span>Passengers</span><b>${booking.passengers}</b></div>
+        <div><span>Base fare</span><b>${money(base)}</b></div>
+        <div><span>Illustrative taxes (12%)</span><b>${money(tax)}</b></div>
+        <div><span>Service fee</span><b>${money(fee)}</b></div>
+        <div><span>Total</span><b>${money(total)}</b></div>
+      </div>
+      <p class="muted">Fictional training record only. This is not a valid airline ticket.</p>
+    </div>
+  `;
+
+  if (!progress.bookingAwarded) {
+    progress.bookingAwarded = true;
+    progress.points += 25;
+    awardBadge("Booking Trainee");
+    saveProgress();
+  }
+});
+
+/* CANCELLATION AND REFUND */
+$("checkPnr").addEventListener("click",() => {
+  const pnr = $("pnrInput").value.trim().toUpperCase();
+  const booking = getBooking(pnr);
+
+  if (!/^[A-Z0-9]{6}$/.test(pnr) || !booking) {
+    retrievedBooking = null;
+    $("calculateRefund").disabled = true;
+    errorMessage($("cancelResult"),"No matching demo PNR found. Create a booking first in this browser.");
+    return;
+  }
+
+  retrievedBooking = booking;
+  $("calculateRefund").disabled = booking.status !== "TICKETED";
+
+  $("cancelResult").innerHTML = `
+    <div class="notice">
+      <strong>Booking found:</strong> ${escapeHTML(booking.pnr)} ·
+      ${escapeHTML(booking.name)} · ${booking.from} → ${booking.to} ·
+      ${money(booking.total)} · Status: ${escapeHTML(booking.status)}
+    </div>
+  `;
+});
+
+$("calculateRefund").addEventListener("click",() => {
+  if (!retrievedBooking) return;
+
+  const booking = getBooking(retrievedBooking.pnr);
+  if (!booking || booking.status !== "TICKETED") {
+    errorMessage($("cancelResult"),"This booking has already been cancelled or cannot be retrieved.");
+    $("calculateRefund").disabled = true;
+    return;
+  }
+
+  const reason = $("cancelReason").value;
+  let deduction = 0;
+
+  if (reason === "voluntary") deduction = Math.min(1500,Math.round(booking.base*0.25));
+  if (reason === "noshow") deduction = Math.round(booking.base*0.80);
+  if (reason === "airline") deduction = 0;
+
+  const refund = Math.max(0,booking.total-deduction);
+
+  booking.status = "CANCELLED";
+  booking.deduction = deduction;
+  booking.refund = refund;
+  booking.cancelReason = reason;
+  saveBooking(booking);
+
+  $("cancelResult").innerHTML = `
+    <div class="result">
+      <h3>Cancellation Completed · Simulation</h3>
+      <div class="kv">
+        <div><span>PNR</span><b>${booking.pnr}</b></div>
+        <div><span>Scenario</span><b>${escapeHTML(reason)}</b></div>
+        <div><span>Original total</span><b>${money(booking.total)}</b></div>
+        <div><span>Illustrative deduction</span><b>${money(deduction)}</b></div>
+        <div><span>Estimated refund</span><b>${money(refund)}</b></div>
+        <div><span>New status</span><b>CANCELLED · SIMULATED</b></div>
+      </div>
+      <p class="muted">Actual refunds depend on airline fare rules, ticket status, taxes, ancillaries, payment method and applicable regulations.</p>
+    </div>
+  `;
+
+  $("calculateRefund").disabled = true;
+
+  if (!progress.cancelAwarded.includes(booking.pnr)) {
+    progress.cancelAwarded.push(booking.pnr);
+    progress.points += 15;
+    awardBadge("Refund Analyst");
+    saveProgress();
+  }
+});
+
+/* LEARNING AND GAMIFICATION */
+function renderQuiz() {
+  $("quiz").innerHTML = questions.map((question,index) => `
+    <article class="quizq">
+      <b>${index+1}. ${question.q}</b>
+      ${question.options.map((option,optionIndex) => `
+        <label class="option">
+          <input type="radio" name="question${index}" value="${optionIndex}">
+          ${escapeHTML(option)}
+        </label>
+      `).join("")}
+      <div id="explanation${index}" class="muted"></div>
+    </article>
+  `).join("");
+}
+
+function renderProgress() {
+  const points = progress.points;
+  let level = "Beginner",floor = 0,next = 100;
+
+  if (points >= 500) {
+    level = "Expert"; floor = 500; next = 500;
+  } else if (points >= 250) {
+    level = "Specialist"; floor = 250; next = 500;
+  } else if (points >= 100) {
+    level = "Intermediate"; floor = 100; next = 250;
+  }
+
+  $("points").textContent = points;
+  $("level").textContent = level;
+  $("badgeCount").textContent = progress.badges.length;
+
+  const percentage = next === floor ? 100 : Math.min(100,((points-floor)/(next-floor))*100);
+  $("progressBar").style.width = percentage + "%";
+  $("progressText").textContent = next === floor
+    ? "Top level reached!"
+    : (next-points) + " points to the next level";
+
+  $("badges").innerHTML = progress.badges.length
+    ? progress.badges.map(badge => `<span class="badge">🏅 ${escapeHTML(badge)}</span>`).join("")
+    : '<span class="muted">Complete a challenge to earn your first badge.</span>';
+
+  $("leaderboard").innerHTML =
+    `<div class="notice">1 · You (this browser) <strong>${points} points</strong></div>`;
+}
+
+$("submitQuiz").addEventListener("click",() => {
+  let answered = 0,correct = 0;
+
+  questions.forEach((question,index) => {
+    const selected = document.querySelector(`input[name="question${index}"]:checked`);
+    const explanation = $("explanation"+index);
+
+    if (selected) {
+      answered++;
+      const isCorrect = Number(selected.value) === question.answer;
+      if (isCorrect) correct++;
+      explanation.textContent = (isCorrect ? "Correct. " : "Not quite. ") + question.explanation;
+    } else {
+      explanation.textContent = "Not answered. " + question.explanation;
+    }
+  });
+
+  if (answered !== questions.length) {
+    $("quizFeedback").innerHTML = `<div class="notice">Please answer all ${questions.length} questions. Current score: ${correct}/${questions.length}.</div>`;
+    return;
+  }
+
+  const extraPoints = Math.max(0,correct-progress.bestQuiz)*15;
+
+  if (correct > progress.bestQuiz) {
+    progress.bestQuiz = correct;
+    progress.points += extraPoints;
+  }
+
+  if (correct > 0) awardBadge("Knowledge Challenger");
+  if (correct === questions.length) awardBadge("Travel Operations Pro");
+
+  saveProgress();
+
+  $("quizFeedback").innerHTML = `
+    <div class="notice">
+      <strong>Score: ${correct}/${questions.length}</strong><br>
+      ${extraPoints ? "You earned "+extraPoints+" new points." : "Your previous best score is already recorded."}
+    </div>
+  `;
+});
+
+$("resetQuiz").addEventListener("click",() => {
+  $("quizFeedback").innerHTML = "";
+  renderQuiz();
+});
+
+renderQuiz();
+renderProgress();
+</script>
+</body>
+</html>
