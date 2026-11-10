@@ -1,118 +1,736 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Travel Industry Knowledge Hub</title>
+<meta name="theme-color" content="#0b1220">
+<meta name="description" content="Explore airline operations, GDS systems, ATPCO, ticketing, travel technology and practical tools for travel professionals.">
+<title>Travel Industry Knowledge Hub | Aviation & Travel Technology</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#1e293b}
-header{background:#10243e;color:white;padding:65px 8%;text-align:center}
-header h1{font-size:38px;margin:0 0 15px}
-header p{font-size:17px;color:#dbeafe;line-height:1.6}
-main{max-width:1100px;margin:40px auto;padding:0 20px}
-h2{color:#10243e}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-.card{background:white;padding:23px;border-radius:12px;box-shadow:0 4px 16px #10243e12}
-.card h3{margin-top:0;color:#174f86}
-.card p{color:#64748b;font-size:14px;line-height:1.6}
-a{color:#1765bd;text-decoration:none;font-weight:bold}
-a:hover{text-decoration:underline}
-.tag{display:inline-block;background:#e6f0fb;color:#174f86;padding:7px 12px;border-radius:20px;font-size:12px;margin:4px}
-footer{text-align:center;background:#10243e;color:#dbeafe;padding:25px;margin-top:50px;font-size:13px}
+:root {
+  --bg: #0b1220;
+  --surface: #111c2d;
+  --surface2: #17253a;
+  --border: #26374e;
+  --text: #f1f5f9;
+  --muted: #9aabc0;
+  --blue: #38bdf8;
+  --blue2: #2563eb;
+  --green: #34d399;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  line-height: 1.65;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.container {
+  width: min(1160px, 90%);
+  margin: auto;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11,18,32,.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+
+.brand-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg,#164e83,#2563eb);
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+}
+
+.brand small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: #b8c7d9;
+  font-size: 13px;
+  font-weight: 600;
+  transition: color .2s;
+}
+
+.nav-links a:hover { color: var(--blue); }
+
+.menu-button {
+  display: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: white;
+  padding: 9px 13px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 105px 0 95px;
+  background:
+    radial-gradient(ellipse at 85% 25%,rgba(37,99,235,.22),transparent 42%),
+    radial-gradient(ellipse at 10% 90%,rgba(14,165,233,.12),transparent 40%),
+    linear-gradient(145deg,#0b1220,#101e32);
+  border-bottom: 1px solid var(--border);
+}
+
+.hero::after {
+  content: "✈";
+  position: absolute;
+  right: 8%;
+  top: 12%;
+  font-size: clamp(130px,24vw,290px);
+  color: rgba(56,189,248,.055);
+  transform: rotate(-12deg);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 750px;
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: clamp(38px,6vw,68px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin: 22px 0;
+  max-width: 760px;
+}
+
+.hero h1 span {
+  background: linear-gradient(90deg,#38bdf8,#60a5fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  color: #b4c3d6;
+  font-size: 17px;
+  max-width: 620px;
+  margin-bottom: 30px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 21px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 750;
+  transition: transform .2s, background .2s;
+}
+
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary {
+  background: linear-gradient(135deg,#0284c7,#2563eb);
+  color: white;
+}
+
+.btn-secondary {
+  border: 1px solid #40516b;
+  color: #e2e8f0;
+  background: rgba(255,255,255,.03);
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 35px;
+}
+
+.tag {
+  border: 1px solid #2d4968;
+  color: #a9c9e7;
+  background: rgba(30,64,100,.24);
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+section { padding: 76px 0; }
+
+.section-heading {
+  margin-bottom: 30px;
+}
+
+.section-heading .eyebrow { margin-bottom: 8px; }
+
+.section-heading h2 {
+  font-size: clamp(26px,4vw,36px);
+  letter-spacing: -.7px;
+  margin: 0 0 8px;
+}
+
+.section-heading p {
+  color: var(--muted);
+  max-width: 650px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 17px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-height: 225px;
+  padding: 23px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: linear-gradient(145deg,#142238,#101a2b);
+  transition: transform .25s,border-color .25s,box-shadow .25s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #2878ad;
+  box-shadow: 0 15px 35px rgba(0,0,0,.2);
+}
+
+.card-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(56,189,248,.11);
+  color: var(--blue);
+  font-size: 21px;
+  margin-bottom: 17px;
+}
+
+.card h3 {
+  font-size: 16px;
+  margin: 0 0 9px;
+  color: #f1f5f9;
+}
+
+.card p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+
+.card-link {
+  color: var(--blue);
+  font-weight: 750;
+  font-size: 13px;
+  margin-top: auto;
+}
+
+.card-link:hover { color: white; }
+
+.projects {
+  background: #0e1929;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 19px;
+}
+
+.project-card {
+  background: linear-gradient(145deg,#172941,#111c2d);
+  border: 1px solid #2a3e58;
+  border-radius: 15px;
+  padding: 27px;
+  transition: transform .25s,border-color .25s;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--blue);
+}
+
+.project-icon {
+  font-size: 27px;
+  margin-bottom: 18px;
+}
+
+.project-card h3 { margin: 0 0 9px; }
+
+.project-card p {
+  color: var(--muted);
+  font-size: 13px;
+  min-height: 65px;
+}
+
+.project-card a {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 35px;
+  align-items: center;
+}
+
+.about-panel {
+  padding: 30px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 16px;
+}
+
+.about-panel p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.feature-list {
+  display: grid;
+  gap: 14px;
+}
+
+.feature {
+  padding: 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.feature strong {
+  display: block;
+  color: #e5f3ff;
+  font-size: 14px;
+}
+
+.feature span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.cta {
+  padding: 45px;
+  border: 1px solid #28527b;
+  border-radius: 18px;
+  background: radial-gradient(ellipse at top right,rgba(37,99,235,.2),transparent 60%),#111f33;
+  text-align: center;
+}
+
+.cta h2 { margin-top: 0; }
+
+.cta p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 23px;
+}
+
+footer {
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+footer a { color: var(--blue); }
+
+@media(max-width:900px) {
+  .learning-grid { grid-template-columns: repeat(2,1fr); }
+  .project-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+@media(max-width:650px) {
+  .nav { min-height: 68px; }
+  .menu-button { display: block; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    padding: 20px 5%;
+    background: #101b2c;
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .nav-links.open { display: flex; }
+  .hero { padding: 75px 0 70px; }
+  .hero h1 { letter-spacing: -1px; }
+  .learning-grid,.project-grid { grid-template-columns: 1fr; }
+  .card { min-height: 190px; }
+  .project-card p { min-height: 0; }
+  .about-grid { grid-template-columns: 1fr; }
+  .cta { padding: 28px 18px; }
+  section { padding: 55px 0; }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<h1>Travel Industry Knowledge Hub</h1>
-<p>A practical learning and portfolio resource covering airline operations,<br>
-GDS systems, ticketing, fares, travel technology and training operations.</p>
-<span class="tag">Airline Operations</span>
-<span class="tag">GDS Systems</span>
-<span class="tag">ATPCO & Ticketing</span>
-<span class="tag">Travel Technology</span>
-<span class="tag">Learning Operations</span>
+  <div class="container nav">
+    <a class="brand" href="#home">
+      <span class="brand-icon">✈</span>
+      <span>
+        TRAVEL INDUSTRY
+        <small>KNOWLEDGE HUB</small>
+      </span>
+    </a>
+
+    <button class="menu-button" id="menuButton"
+      aria-label="Toggle navigation" aria-expanded="false"
+      onclick="toggleMenu()">☰ Menu</button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#home" onclick="closeMenu()">Home</a>
+      <a href="#learning" onclick="closeMenu()">Learning Hub</a>
+      <a href="#projects" onclick="closeMenu()">Projects</a>
+      <a href="#about" onclick="closeMenu()">About</a>
+      <a href="https://github.com/Ishansareen09/travel-industry-knowledge">GitHub Repository</a>
+    </nav>
+  </div>
 </header>
 
 <main>
-<section>
-<h2>Welcome to the Knowledge Hub</h2>
-<p>This project brings together practical travel-industry knowledge, educational guides and interactive tools for travel professionals and learners.</p>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="container hero-content">
+    <div class="eyebrow">AVIATION • TRAVEL • TECHNOLOGY</div>
+
+    <h1>
+      Navigate the Future of
+      <span>Travel Technology.</span>
+    </h1>
+
+    <p>
+      Explore industry knowledge, understand airline systems and
+      discover practical tools designed for travel professionals,
+      learners and technology enthusiasts.
+    </p>
+
+    <div class="actions">
+      <a href="#learning" class="btn btn-primary">Explore Knowledge Hub →</a>
+      <a href="#projects" class="btn btn-secondary">View Practical Projects</a>
+    </div>
+
+    <div class="hero-tags">
+      <span class="tag">GDS Systems</span>
+      <span class="tag">ATPCO & Ticketing</span>
+      <span class="tag">Airline Operations</span>
+      <span class="tag">NDC & Travel Technology</span>
+      <span class="tag">Learning Operations</span>
+    </div>
+  </div>
 </section>
 
-<h2>Explore Learning Resources</h2>
-<div class="grid">
-<div class="card">
-<h3>GDS Systems</h3>
-<p>Learn about Sabre, Amadeus and Galileo reservation systems.</p>
-<a href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/01-GDS-Systems" target="_blank">Explore GDS →</a>
-</div>
-<div class="card">
-<h3>Airline Operations</h3>
-<p>Explore airport processes and airline operational workflows.</p>
-<a href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/02-Airline-Operations" target="_blank">Explore Operations →</a>
-</div>
-<div class="card">
-<h3>Ticketing &amp; Fares</h3>
-<p>Understand ATPCO, ticketing, reissues and refund management.</p>
-<a href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/03-Ticketing-and-Fares" target="_blank">Explore Ticketing →</a>
-</div>
-<div class="card">
-<h3>Travel Technology</h3>
-<p>Explore NDC and modern travel distribution technology.</p>
-<a href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/04-Travel-Technology" target="_blank">Explore Technology →</a>
-</div>
-<div class="card">
-<h3>Travel Operations</h3>
-<p>Learn about OTA operations, customer service and quality.</p>
-<a href="https://github.com/Ishansareen09/travel-industry-knowledge/blob/main/05-Travel-Operations/OTA-Operations.md" target="_blank">Explore Travel Operations →</a>
-</div>
-<div class="card">
-<h3>Travel Policies</h3>
-<p>Explore airline cancellation, refund and baggage policies.</p>
-<a href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/06-Travel-Policies" target="_blank">Explore Policies →</a>
-</div>
-<div class="card">
-<h3>Training &amp; LMS</h3>
-<p>Explore LMS administration, training analytics and learning operations.</p>
-<a href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/07-Training-and-LMS" target="_blank">Explore Training →</a>
-</div>
-<div class="card">
-<h3>Travel Industry Glossary</h3>
-<p>Reference commonly used airline and travel terminology.</p>
-<a href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/08-Travel-Industry-Glossary" target="_blank">Explore Glossary →</a>
-</div>
-</div>
+<!-- LEARNING RESOURCES -->
+<section id="learning">
+  <div class="container">
+    <div class="section-heading">
+      <div class="eyebrow">EXPLORE & LEARN</div>
+      <h2>Travel Industry Knowledge Hub</h2>
+      <p>
+        Explore structured learning resources covering the
+        systems, processes and technologies that power the
+        global travel industry.
+      </p>
+    </div>
 
+    <div class="learning-grid">
 
-<h2>Interactive Practical Projects</h2>
-<div class="grid">
-<div class="card">
-<h3>Airline Refund Calculator</h3>
-<p>Calculate an illustrative refund based on fare, penalties and other charges.</p>
-<a href="09-Practical-Projects/refund-calculator/index.html">Open Calculator →</a>
-</div>
-<div class="card">
-<h3>Airline Fare Comparison</h3>
-<p>Compare flight options based on fares, baggage, journey duration and fees.</p>
-<a href="09-Practical-Projects/fare-comparison/index.html">Compare Flights →</a>
-</div>
-<div class="card">
-<h3>Travel Operations Dashboard</h3>
-<p>Explore booking performance, cancellations, refunds and CSAT metrics.</p>
-<a href="09-Practical-Projects/travel-operations-dashboard/index.html">Open Dashboard →</a>
-</div>
-</div>
+      <article class="card">
+        <div class="card-icon">▣</div>
+        <h3>GDS Systems</h3>
+        <p>Learn about Sabre, Amadeus and Galileo reservation systems.</p>
+        <a class="card-link" href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/01-GDS-Systems">Explore GDS →</a>
+      </article>
 
-<h2>About This Project</h2>
-<div class="card">
-<p>Travel Industry Knowledge Hub is an educational portfolio project created to demonstrate knowledge of airline operations, GDS platforms, ticketing, fare management, travel technology, customer service and learning operations.</p>
-<p>All practical calculators and dashboards are educational demonstrations, not live airline systems.</p>
-</div>
+      <article class="card">
+        <div class="card-icon">✈</div>
+        <h3>Airline Operations</h3>
+        <p>Explore airport processes and airline operational workflows.</p>
+        <a class="card-link" href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/02-Airline-Operations">Explore Operations →</a>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">▤</div>
+        <h3>Ticketing &amp; Fares</h3>
+        <p>Understand ATPCO, ticketing, reissues and refund management.</p>
+        <a class="card-link" href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/03-Ticketing-and-Fares">Explore Ticketing →</a>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">⌘</div>
+        <h3>Travel Technology</h3>
+        <p>Explore NDC and modern travel distribution technology.</p>
+        <a class="card-link" href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/04-Travel-Technology">Explore Technology →</a>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">◎</div>
+        <h3>Travel Operations</h3>
+        <p>Learn about OTA operations, business models, customer service and quality.</p>
+        <a class="card-link" href="https://github.com/Ishansareen09/travel-industry-knowledge/blob/main/05-Travel-Operations/OTA-Operations.md">Explore Travel Operations →</a>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">◇</div>
+        <h3>Travel Policies</h3>
+        <p>Explore cancellation, refund and baggage policies.</p>
+        <a class="card-link" href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/06-Travel-Policies">Explore Policies →</a>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">▧</div>
+        <h3>Training &amp; LMS</h3>
+        <p>Explore LMS administration, training analytics and learning operations.</p>
+        <a class="card-link" href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/07-Training-and-LMS">Explore Training →</a>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">▤</div>
+        <h3>Travel Industry Glossary</h3>
+        <p>Reference commonly used airline and travel terminology.</p>
+        <a class="card-link" href="https://github.com/Ishansareen09/travel-industry-knowledge/tree/main/08-Travel-Industry-Glossary">Explore Glossary →</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRACTICAL PROJECTS -->
+<section class="projects" id="projects">
+  <div class="container">
+    <div class="section-heading">
+      <div class="eyebrow">LEARN BY DOING</div>
+      <h2>Interactive Practical Projects</h2>
+      <p>
+        Explore hands-on demonstrations of airline ticketing,
+        fare comparison and travel operations performance.
+      </p>
+    </div>
+
+    <div class="project-grid">
+
+      <article class="project-card">
+        <div class="project-icon">🧮</div>
+        <h3>Airline Refund Calculator</h3>
+        <p>
+          Calculate an illustrative refund using ticket fare,
+          cancellation penalties and non-refundable charges.
+        </p>
+        <a href="09-Practical-Projects/refund-calculator/index.html">Open Refund Calculator →</a>
+      </article>
+
+      <article class="project-card">
+        <div class="project-icon">✈</div>
+        <h3>Airline Fare Comparison</h3>
+        <p>
+          Compare flight options based on price, baggage,
+          journey duration, cancellation and change fees.
+        </p>
+        <a href="09-Practical-Projects/fare-comparison/index.html">Compare Flights →</a>
+      </article>
+
+      <article class="project-card">
+        <div class="project-icon">📊</div>
+        <h3>Travel Operations Dashboard</h3>
+        <p>
+          Monitor sample booking performance, cancellations,
+          refund requests and customer satisfaction metrics.
+        </p>
+        <a href="09-Practical-Projects/travel-operations-dashboard/index.html">Open Dashboard →</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <div>
+        <div class="section-heading">
+          <div class="eyebrow">ABOUT THE PROJECT</div>
+          <h2>Knowledge Meets Practical Application.</h2>
+        </div>
+
+        <div class="about-panel">
+          <p>
+            Travel Industry Knowledge Hub is an educational
+            portfolio project focused on the airline and
+            travel technology ecosystem.
+          </p>
+          <p>
+            It brings together learning resources and practical
+            demonstrations covering GDS platforms, airline
+            ticketing, fare management, travel operations,
+            technology and learning management systems.
+          </p>
+          <p>
+            The objective is to make industry concepts easier
+            to understand through structured guides and
+            interactive examples.
+          </p>
+          <a class="btn btn-secondary"
+             href="https://github.com/Ishansareen09/travel-industry-knowledge">
+             View Project Repository →
+          </a>
+        </div>
+      </div>
+
+      <div class="feature-list">
+        <div class="feature">
+          <strong>01. Industry Knowledge</strong>
+          <span>Structured guides and terminology.</span>
+        </div>
+        <div class="feature">
+          <strong>02. Practical Tools</strong>
+          <span>Interactive educational demonstrations.</span>
+        </div>
+        <div class="feature">
+          <strong>03. Travel Technology</strong>
+          <span>Explore distribution systems and platforms.</span>
+        </div>
+        <div class="feature">
+          <strong>04. Learning Operations</strong>
+          <span>Training, LMS and performance concepts.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="container">
+    <div class="cta">
+      <div class="eyebrow">EXPLORE THE PROJECT</div>
+      <h2>Discover the Travel Industry.</h2>
+      <p>
+        Browse the learning resources, explore practical tools
+        and continue building your travel technology knowledge.
+      </p>
+      <a class="btn btn-primary"
+         href="https://github.com/Ishansareen09/travel-industry-knowledge">
+         Explore on GitHub →
+      </a>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <footer>
-Travel Industry Knowledge Hub | Educational Portfolio Project
+  <div class="container footer-content">
+    <div>
+      <strong>Travel Industry Knowledge Hub</strong>
+      <div>Educational Portfolio Project • 2026</div>
+    </div>
+    <div>
+      <a href="#home">Back to Top ↑</a>
+      &nbsp; | &nbsp;
+      <a href="https://github.com/Ishansareen09/travel-industry-knowledge">GitHub Repository</a>
+    </div>
+  </div>
 </footer>
+
+<script>
+function toggleMenu() {
+  const nav = document.getElementById("navLinks");
+  const button = document.getElementById("menuButton");
+  const isOpen = nav.classList.toggle("open");
+  button.setAttribute("aria-expanded", String(isOpen));
+}
+
+function closeMenu() {
+  document.getElementById("navLinks").classList.remove("open");
+  document.getElementById("menuButton").setAttribute("aria-expanded", "false");
+}
+</script>
+
 </body>
 </html>
